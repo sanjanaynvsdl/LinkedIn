@@ -3,8 +3,10 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { sendWelcomeEmail } from '../emails/emailHandlers.js'
 
+//Also, logg the errors in catch block - can easily debug the errorsss
+//I haven't returnred used -> res.json()-> In this way the code instead of returning, It will execute the next lines!
 
-
+//<-------------------userController-------------------------------->
 //1. Handle Errors
 //2. Create user (hash password)
 //3. Save user to DB
@@ -83,7 +85,7 @@ export const signup = async(req,res)=> {
             await sendWelcomeEmail(user.email, user.name, profileUrl) 
 
         }  catch(emailError) {
-            console.log("Error in sending email", emailError);
+            console.log("Error in sending email : ", emailError);
         }
 
         return res
@@ -96,7 +98,7 @@ export const signup = async(req,res)=> {
         
 
     } catch(error) {
-        console.log("An error occured while sign-up", error.message);
+        console.log("An error occured in sign-up controller : ", error.message);
         return res
         .status(500)
         .json({
@@ -177,7 +179,7 @@ export const login = async (req,res)=> {
         
 
     } catch(error) {
-        console.log("Error in login :" ,error);
+        console.log("Error in login controller : " ,error);
         return res
         .status(500)
         .json({
@@ -185,7 +187,6 @@ export const login = async (req,res)=> {
             message:"Internal server error!"
         })
     }
-
 
 
 }
