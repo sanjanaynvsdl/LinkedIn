@@ -80,7 +80,7 @@ export const signup = async(req,res)=> {
 
         const profileUrl=process.env.CLIENT_URL + '/profile'  + user.username;  
 
-        //todo : sendwelcom-email
+        //Sendwelcom-email
         try{
             await sendWelcomeEmail(user.email, user.name, profileUrl) 
 

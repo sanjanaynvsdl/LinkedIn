@@ -35,6 +35,7 @@ export const protectRoute = async(req,res, next)=> {
         console.log(user);
         req.user=user;
         next();
+        
     } catch(error) {
         console.log("Error in authProtector", error.message);
         return res
