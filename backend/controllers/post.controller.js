@@ -16,6 +16,8 @@ export const getFeedPosts = async(req,res)=> {
         .populate("comments.user", "name profilePicture")
         .sort({ createdAt : -1});
 
+        // console.log(posts);
+
         res.status(200).json(posts);
 
     } catch (error) {
@@ -70,7 +72,7 @@ export const deletePost = async(req, res)=> {
         const userId= req.user._id;
         const post = await Post.findById(postId);
 
-        if(post) {
+        if(!post) {
             return res.status(400).json({
                 error:true,
                 message:"Post not found!"

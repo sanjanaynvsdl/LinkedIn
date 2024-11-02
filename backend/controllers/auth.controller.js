@@ -4,7 +4,9 @@ import jwt from 'jsonwebtoken';
 import { sendWelcomeEmail } from '../emails/emailHandlers.js'
 
 //Also, logg the errors in catch block - can easily debug the errorsss
-//I haven't returnred used -> res.json()-> In this way the code instead of returning, It will execute the next lines!
+//1. return res.json
+//2. or just set the set.json()
+//res.json()-> In this way the code instead of returning, It will execute the next lines!
 
 //<-------------------userController-------------------------------->
 //1. Handle Errors

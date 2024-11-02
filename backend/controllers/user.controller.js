@@ -4,7 +4,7 @@ import User from "../models/User.model.js"
 
 //In this userContoller, check the way I'm returing dataaa! (In video it's different)
 //Also, logg the errors in catch block - can easily debug the errorsss
-//suggest connections
+//suggest connections $ne -> not equl, $in -> in , $nin -> not in.
 export const getSuggestedConnections= async(req,res)=> {
 
     try {
