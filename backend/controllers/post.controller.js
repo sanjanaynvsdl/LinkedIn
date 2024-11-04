@@ -2,6 +2,8 @@ import cloudinary from '../lib/cloudinary.js';
 import Post from '../models/post.model.js'
 import Notification from '../models/notification.model.js'
 import { sendCommentNotificationEmail } from '../emails/emailHandlers.js';
+import mongoose from 'mongoose';
+
 
 
 //1. By using populate method we can get the user-post (As,we need username, profikePicture, headline)
@@ -69,6 +71,14 @@ export const deletePost = async(req, res)=> {
 
     try {
         const postId= req.params.id;
+
+        // Check if postId is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({
+                error: true,
+                message: "Invalid Post ID format!",
+            });
+        }
         const userId= req.user._id;
         const post = await Post.findById(postId);
 
@@ -116,9 +126,27 @@ export const getPostById = async(req,res)=> {
     try{
 
         const postId=req.params.id;
+
+        // Check if postId is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({
+                error: true,
+                message: "Invalid Post ID format!",
+            });
+        }
+
         const post= await Post.findById(postId)
         .populate("author", "name username profilePicture headline")
         .populate("comments.user", "name profilePicture username headline");
+
+        if(!post) {
+            return res
+            .status(404)
+            .json({
+                error:true,
+                message:"Post not found!"
+            })
+        }
 
         res.status(200).json(post);
 
@@ -140,6 +168,14 @@ export const createComment= async(req,res)=> {
 
     try {
         const postId=req.params.id;
+        // Check if postId is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({
+                error: true,
+                message: "Invalid Post ID format!",
+            });
+        }
+
         const {content}= req.body;
 
         const post = await Post.findByIdAndUpdate(postId, {
@@ -184,6 +220,15 @@ export const createComment= async(req,res)=> {
 export const likePost = async(req,res)=> {
     try {
         const postId= req.params.id;
+
+        // Check if postId is a valid MongoDB ObjectId
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({
+                error: true,
+                message: "Invalid Post ID format!",
+            });
+        }
+        
         const post = await Post.findById(postId);
         const userId= req.user._id;
 
