@@ -1,5 +1,5 @@
 import { mailtrapClient, sender } from "../lib/mailtrap.js";
-import { createWelcomeEmailTemplate,createCommentNotificationEmailTemplate } from "./emailTemplates.js";
+import { createWelcomeEmailTemplate,createCommentNotificationEmailTemplate, createConnectionAcceptedEmailTemplate } from "./emailTemplates.js";
 
 export const sendWelcomeEmail= async (email, name, profileUrl)=> {
     const recipient = [{email}];
@@ -29,7 +29,7 @@ export const sendCommentNotificationEmail = async(
     commentContent,
     )=> {
 
-    const recipient = [{email}];
+    const recipient = [{email : recipientEmail}];
     try {
         const response = await mailtrapClient.send({
             from:sender,
@@ -41,7 +41,29 @@ export const sendCommentNotificationEmail = async(
         console.log("Notification email sent sucessfully!");
     } catch (error) {
         throw error;
+    }
+}
 
+export const sendConnectionAcceptedEmail = async(
+    senderEmail, 
+    senderName, 
+    recipientName, 
+    profileUrl
+
+)=> {
+    const recipient= [{email:senderEmail}];
+
+    try {
+        const response = await mailtrapClient.send({
+            from:sender,
+            to : recipient,
+            subject:`${recipientName} accpted your connection request!`,
+            html:createConnectionAcceptedEmailTemplate(senderName, recipientName, profileUrl),
+            category:"connection_accepted",
+        })
+    } catch (error) {
+        throw error;
         
     }
+
 }
