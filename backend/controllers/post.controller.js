@@ -12,7 +12,7 @@ import mongoose from 'mongoose';
 export const getFeedPosts = async(req,res)=> {
     try {
         const posts = await Post.find({author: {
-            $in:req.user.connection
+            $in:req.user.connections
         }})
         .populate("author", "name username profilePicture headline")
         .populate("comments.user", "name profilePicture")
@@ -253,6 +253,8 @@ export const likePost = async(req,res)=> {
             await newNotification.save();
         }
         await post.save();
+
+        return res.json({message:"Liked/Unliked post!"});
         
     } catch (error) {
         console.log("An error occurred in likePost controller : ", error.message);

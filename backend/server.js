@@ -15,7 +15,8 @@ import { connectDB } from './lib/db.js';
 dotenv.config();
 const app=express();
 //Added limit for the images (else- throws an error- payload too large)
-app.use(express.json({ limit : "5mb "})); //middleware -> Parse JSON request bodies to js object,
+// { limit : "5mb "} (removed from below express.json())
+app.use(express.json()); //middleware -> Parse JSON request bodies to js object,
 app.use(cookieParser()); //parse cookie -> we can extract the token 
 
 

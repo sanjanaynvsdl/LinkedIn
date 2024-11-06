@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import ConnectionRequest from "../models/connectionRequest.model.js";
+import Notification from "../models/notification.model.js";
 import User from '../models/User.model.js'
 import { sendConnectionAcceptedEmail } from "../emails/emailHandlers.js";
 
@@ -144,9 +145,10 @@ export const acceptConnectionRequest= async(req,res)=> {
         const senderName= request.sender.name;
         
         const recipientName= request.recipient.name;
-        const profileUrl=process.env.CLIENT_URL + "/profile" + request.recipient.name;
+        const profileUrl=process.env.CLIENT_URL + "/profile/" + request.recipient.name;
         try {
             await sendConnectionAcceptedEmail(senderEmail, senderName, recipientName, profileUrl);
+            console.log("email for connection accepted sent successfully!");
         } catch (error) {
             console.log("Error in sending connectionAcceptedEmail : ", error.message);
             
@@ -184,7 +186,8 @@ export const rejectConnectionRequest = async(req,res)=> {
         }
 
         const request = await ConnectionRequest.findById(requestId);
-        if(request.recipient.toString()!=userId.toString) {
+        if(request.recipient.toString() !== userId.toString()) {
+            console.log(request.recipient, userId);
             return res.status(403).json({
                 error:true,
                 message:"Not authorized to reject this request!"
@@ -279,6 +282,14 @@ export const removeConnection= async(req,res)=> {
         const {userId} = req.params;
         const myId= req.user._id;
 
+        //Handle in-valid id format case
+        if(!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).json({
+                error:true,
+                message:"Invalid Id passed!"
+            })
+        }
+
         await User.findByIdAndUpdate(myId, {$pull : {connections : userId} } );
         await User.findByIdAndUpdate(userId, {$pull : {connections : myId} } );
 
@@ -302,6 +313,13 @@ export const getConnectionStatus = async(req,res)=> {
         const targetUserId = req.params.userId;
         const currUserId = req.user._id;
 
+        //Handle in-valid id format case
+        if(!mongoose.Types.ObjectId.isValid(targetUserId)) {
+            return res.status(400).json({
+                error:true,
+                message:"Invalid Id passed!"
+            })
+        }
         const currentUser= req.user;
 
         //Already conected case,
@@ -311,7 +329,7 @@ export const getConnectionStatus = async(req,res)=> {
             })
         }
 
-        const pendingRequest = await ConnectionRequest.findOnce({
+        const pendingRequest = await ConnectionRequest.findOne({
             $or : [
                 { sender : currUserId, recipient : targetUserId },
                 { sender : targetUserId, recipient : currUserId }

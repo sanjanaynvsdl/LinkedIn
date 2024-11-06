@@ -4,13 +4,13 @@ import { protectRoute } from '../middleware/auth.middleware.js';
 
 const router=express.Router();
 
-//Try getFeedPost route after setting the connections
+
 router.get("/", protectRoute, getFeedPosts);
 router.post("/create", protectRoute, createPost);         
 router.delete("/delete/:id", protectRoute, deletePost);   
 router.get("/:id", protectRoute, getPostById);            
 router.post("/:id/comment", protectRoute, createComment); 
-router.post("/:id/like", protectRoute, likePost);         //todo : not working properly! 
+router.post("/:id/like", protectRoute, likePost);         
 
 
 
