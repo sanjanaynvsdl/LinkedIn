@@ -5,7 +5,7 @@ import userRoutes from './routes/user.route.js';
 import postRoutes from './routes/post.route.js';
 import notificationRoutes from './routes/notification.route.js';
 import connectionRoutes from './routes/connection.route.js'
-
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { connectDB } from './lib/db.js';
 
@@ -14,6 +14,13 @@ import { connectDB } from './lib/db.js';
 
 dotenv.config();
 const app=express();
+
+app.use(
+    cors({
+    origin:"http://localhost:5173",
+    credentials:true,                         //allowing them to send cookies with the response,
+})
+);
 //Added limit for the images (else- throws an error- payload too large)
 // { limit : "5mb "} (removed from below express.json())
 app.use(express.json()); //middleware -> Parse JSON request bodies to js object,
