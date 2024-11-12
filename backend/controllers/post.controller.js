@@ -38,6 +38,8 @@ export const createPost = async(req,res)=> {
         const {content, image} = req.body;
         let newPost;
 
+        // console.log("content", content);
+        // console.log("IMage", image); //data:String will be logged,
         if(image) {
             const imgResult = await cloudinary.uploader.upload(image);
             newPost = new Post({

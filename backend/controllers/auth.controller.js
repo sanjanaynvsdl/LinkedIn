@@ -82,6 +82,14 @@ export const signup = async(req,res)=> {
 
         const profileUrl=process.env.CLIENT_URL + '/profile'  + user.username;  
 
+        res
+        .status(201)
+        .json({
+            error:false,
+            user,
+            message:"User registered successfully !"
+        });
+
         //Sendwelcom-email
         try{
             await sendWelcomeEmail(user.email, user.name, profileUrl) 
@@ -90,13 +98,7 @@ export const signup = async(req,res)=> {
             console.log("Error in sending email : ", emailError);
         }
 
-        return res
-        .status(201)
-        .json({
-            error:false,
-            user,
-            message:"User registered successfully !"
-        });
+        
         
 
     } catch(error) {

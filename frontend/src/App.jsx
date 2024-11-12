@@ -17,7 +17,8 @@ function App() {
   queryFn: async()=> {
     try {
       const res= await axiosInstance.get("/auth/me");
-      return res.data;
+      return res.data.user;
+      // return res.data;
     } catch (error) {
       if(error.response && error.response.status === 401) { 
         return null;
