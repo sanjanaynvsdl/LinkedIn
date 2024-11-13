@@ -23,6 +23,7 @@ const PostCreation = ({user}) => {
         onSuccess: ()=> {
             resetForm();
             toast.success("Post created successfully!");
+            queryClient.invalidateQueries({queryKey:["posts"]});
         },
         onError: (error)=> {
             console.log(data);
@@ -108,4 +109,6 @@ const PostCreation = ({user}) => {
   )
 }
 
-export default PostCreation
+export default PostCreation;
+//1. As user, writes a post and uploads image 
+//2.posts, query is being fethed again to show, user's latest post pn his feed!
