@@ -81,6 +81,7 @@ export const sendConnectionRequest = async(req,res)=> {
 //Handle edge cases
 //Update connections of the both the users,
 //Create notification and send an email.
+//Even though there's error in catch (sending mail) - After logging the error, the execution continues outside the blockk.
 export const acceptConnectionRequest= async(req,res)=> {
     try {
         const {requestId}= req.params;
@@ -307,7 +308,7 @@ export const removeConnection= async(req,res)=> {
     }
 }
 
-//todo: Understand this fn more clearly.
+
 export const getConnectionStatus = async(req,res)=> {
     try {
         const targetUserId = req.params.userId;
@@ -338,8 +339,8 @@ export const getConnectionStatus = async(req,res)=> {
         });
 
         if(pendingRequest) {
-            if(pendingRequest.sender.toString() === pendingRequest.recipient.toString()) {
-                return res.json({status : "pending "});
+            if(pendingRequest.sender.toString() === currUserId.toString()) {
+                return res.json({status : "pending"});
             } else {
                 return res.json({ status:"received",requestId : pendingRequest._id });
             }
