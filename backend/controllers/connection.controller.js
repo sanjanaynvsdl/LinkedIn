@@ -226,7 +226,7 @@ export const rejectConnectionRequest = async(req,res)=> {
 export const getConnectionRequests = async(req,res)=> {
     try {
         const userId=req.user._id;
-        const requests = await ConnectionRequest.findOne({  recipient:userId, status:"pending"})
+        const requests = await ConnectionRequest.find({  recipient:userId, status:"pending"})
         .populate("sender", "name username profilePicture headline connections");
 
         return res.json({
