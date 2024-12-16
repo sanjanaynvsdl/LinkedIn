@@ -22,7 +22,7 @@ const NotificationPage = () => {
         )
     });
 
-    console.log("notifications", notifications)
+    // console.log("notifications", notifications);
 
     //Mark as read for a notification,
     const {mutate: markReadMutation} = useMutation({

@@ -39,9 +39,7 @@ if(isLoading) return null;
       <Route  path='/signup' element={!authUser ? <SignUpPage/> : <Navigate to = {"/"}/>}/>
       <Route  path='/login' element={!authUser ? <LoginPage/> : <Navigate to ={"/"}/>}/>
       <Route  path='/notifications' element={authUser ? <NotificationPage/> : <Navigate to ={"/login"}/>}/>
-      <Route  path='/network' element={authUser ? <NetworkPage user = {authUser}/> : <Navigate to ={"/login"}/>}/>
-
-
+      <Route  path='/network' element={authUser ? <NetworkPage/> : <Navigate to ={"/login"}/>}/>
     </Routes>
     <Toaster/>
   </Layout>

@@ -3,17 +3,23 @@ import React from 'react'
 import { axiosInstance } from '../lib/axios';
 import Sidebar from '../components/Sidebar';
 import {UserPlus} from 'lucide-react'
-import { connect } from 'mongoose';
-import FriendRequest from '../components/FriendRequest'
+import FriendRequest from '../components/FriendRequest';
+import UserCard from '../components/UserCard'
+const NetworkPage = () => {
 
-const NetworkPage = ({user}) => {
-
-    const {data : authUser} = useQuery({ QueryKey : ["authUser"]});
+    const {data : user} = useQuery({ queryKey : ["authUser"]});
     const { data : connectionRequests} = useQuery({
         queryKey: ["connectionRequests"],
         queryFn: ()=> axiosInstance.get('/connections/requests'),
-        
     });
+    //Below the connections request-- Add the list of existing connections
+    const {data : connections } = useQuery({
+      queryKey: ["connections"],
+      queryFn: ()=> axiosInstance.get("/connections")
+    })
+
+    
+    // console.log("User-connections", connections);
     // console.log("requests of user" , connectionRequests);
     // console.log("length of connections req : " ,connectionRequests?.data?.requests.length)
 
@@ -47,8 +53,20 @@ const NetworkPage = ({user}) => {
 						<p className='text-gray-600 mt-2'>
 							Explore suggested connections below to expand your network!
 						</p>
-				</div>)
-            }
+				</div>
+      )}
+      {connections?.data?.connections?.length > 0 && (
+        <div className='mb-8'>
+          <h2 className='text-xl font-semibold mb-4'>My Connections</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {connections.data.connections.map((connection)=> (
+              <UserCard key={connection._id} user={connection} isConnection = {true} />
+            ))}
+
+          </div>
+
+        </div>
+      )}
         </div>
       </div>
     </div>
