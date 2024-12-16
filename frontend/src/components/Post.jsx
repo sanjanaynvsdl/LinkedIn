@@ -9,13 +9,21 @@ import {formatDistanceToNow} from 'date-fns'
 
 const Post = ({post}) => {
 
-    const {postId} = useParams()
+    // const {postId} = useParams()
+
+    
     const {data:authUser} = useQuery({ queryKey:["authUser" ]});
     const [showComments, setShowComments] = useState(false);
     const [newComment, setNewComment] = useState("");
     const [comments, setComments]= useState(post.comments || []);
-    const isOwner= authUser._id === post.author._id;
-    const isLiked = post.likes.includes(authUser._id);
+    // const isOwner= authUser._id === post.author._id;
+    // const isLiked = post.likes.includes(authUser._id);
+
+    console.log('post:', post);
+    console.log('authUser', authUser);
+    const isOwner = authUser && authUser._id === post.author._id;
+    const isLiked = authUser && post.likes.includes(authUser._id);
+    
 
 
     const queryClient = useQueryClient();
@@ -59,7 +67,7 @@ const Post = ({post}) => {
         },
         onSuccess: ()=> {
             queryClient.invalidateQueries({queryKey:["posts"]});
-            queryClient.invalidateQueries({queryKey:['post', postId]});
+            // queryClient.invalidateQueries({queryKey:['post', postId]});
 
             // toast.success("Liked the post");
         },
