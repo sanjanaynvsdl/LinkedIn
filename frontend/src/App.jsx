@@ -8,7 +8,8 @@ import { useQuery } from '@tanstack/react-query';
 import { axiosInstance } from './lib/axios.js';
 import NotificationPage from './pages/NotificationPage.jsx'
 import NetworkPage from './pages/NetworkPage.jsx';
-import PostPage from './pages/PostPage.jsx'
+import PostPage from './pages/PostPage.jsx';
+import ProfilePage from './pages/ProfilePage';
 
 
 
@@ -42,6 +43,8 @@ if(isLoading) return null;
       <Route  path='/notifications' element={authUser ? <NotificationPage/> : <Navigate to ={"/login"}/>}/>
       <Route  path='/network' element={authUser ? <NetworkPage/> : <Navigate to ={"/login"}/>}/>
       <Route  path='/post/:postId' element={authUser ? <PostPage/> : <Navigate to ={"/login"}/>}/>
+      <Route  path='/profile/:username' element={authUser ? <ProfilePage/> : <Navigate to ={"/login"}/>}/>
+
 
     </Routes>
     <Toaster/>
