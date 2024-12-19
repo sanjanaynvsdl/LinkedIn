@@ -1,5 +1,5 @@
 import cloudinary from "../lib/cloudinary.js";
-import User from "../models/User.model.js"
+import User from "../models/user.model.js"
 
 
 //In this userContoller, check the way I'm returing dataaa! (In video it's different)

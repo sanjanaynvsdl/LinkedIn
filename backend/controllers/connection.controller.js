@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import ConnectionRequest from "../models/connectionRequest.model.js";
 import Notification from "../models/notification.model.js";
-import User from '../models/User.model.js'
+import User from '../models/user.model.js'
 import { sendConnectionAcceptedEmail } from "../emails/emailHandlers.js";
 
 
