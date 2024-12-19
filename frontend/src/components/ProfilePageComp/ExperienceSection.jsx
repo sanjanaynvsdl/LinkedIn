@@ -18,15 +18,16 @@ const ExperienceSection = ({userData, isOwnProfile, onSave}) => {
   const handleAddExperience = ()=> {
 	if(newExperience.title && newExperience.company && newExperience.startDate) {
 		setExperiences([...experiences, newExperience])
+		setNewExperience({
+			title:"",
+			company:"",
+			startDate:"",
+			endDate:"",
+			description:"",
+			currentlyWorking:false,
+			});
 	}
-	setNewExperience({
-	title:"",
-    company:"",
-    startDate:"",
-    endDate:"",
-    description:"",
-    currentlyWorking:false,
-	});
+	
   }
   //To delete any experience, we filter that out,
   const handleDeleteExperience = (id)=> {
