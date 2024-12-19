@@ -26,8 +26,11 @@ const PostCreation = ({user}) => {
             queryClient.invalidateQueries({queryKey:["posts"]});
         },
         onError: (error)=> {
-            console.log(data);
-            toast.error(error.response.data.message || "Failed to create the post");
+            if (error.response && error.response.status === 413) {
+                toast.error('File is too large. Please upload a smaller file.');
+            } else {
+                toast.error(error.response?.data?.message || 'Failed to create the post');
+            }
         }
     });
 

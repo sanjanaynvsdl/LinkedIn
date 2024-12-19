@@ -28,12 +28,15 @@ function App() {
           return null;
         }
         toast.error(error.response.data.message || "Something went wrong!"); 
+        return null;
     }
   },
  });
 
 //  console.log("authUser", authUser);
 if(isLoading) return null;
+if (isLoading) return <div>Loading...</div>;
+
   
   return <Layout>
     <Routes>

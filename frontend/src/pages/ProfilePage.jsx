@@ -29,7 +29,15 @@ const ProfilePage = () => {
         onSuccess: ()=> {
             toast.success("Profile updated successfully!")
             queryClient.invalidateQueries(["userProfile", username]);
-        }
+        },
+        onError: (error) => {
+            if (error.response && error.response.status === 413) {
+              toast.error('File is too large. Please upload a smaller file.');
+            } else {
+              toast.error(error.response?.data?.message || 'Something went wrong!');
+            }
+        },
+
     })
 
     if(isLoading || isUserProfileLoading) return null;
