@@ -11,6 +11,9 @@ const ProfileHeader = ({userData, onSave, isOwnProfile}) => {
   const queryClient = useQueryClient();
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
+  // console.log('userData.connections:', userData.connections);
+  // console.log('authUser._id:', authUser._id);
+
   const {data:connectionStatus, refetch: refetchConnectionStatus} = useQuery({
     queryKey:["connectionStatus", userData._id],
     queryFn:()=> axiosInstance.get(`/connections/status/${userData._id}`),
@@ -18,7 +21,8 @@ const ProfileHeader = ({userData, onSave, isOwnProfile}) => {
   });
 
   //In other-ussers connections if our id, is present then we are connected
-  const isConnected = userData.connections.some((connection)=> connection._id === authUser._id)
+  // const isConnected = userData.connections.some((connection)=> connection._id === authUser._id)
+  const isConnected = userData.connections.includes(authUser._id);
 
 
   //send Connection Request
@@ -79,10 +83,11 @@ const ProfileHeader = ({userData, onSave, isOwnProfile}) => {
     return connectionStatus?.data?.status
   }
 
-  console.log("connectionStatus", connectionStatus);
+  // console.log("connectionStatus", connectionStatus);
 
   const renderConnectionButton = ()=> {
     const baseClass = "text-white py-2 px-4 rounded-full transition duration-300 flex items-center justify-center"
+    // console.log(getConnectionStatus());
     switch(getConnectionStatus()) {
       case "connected":
       return (
